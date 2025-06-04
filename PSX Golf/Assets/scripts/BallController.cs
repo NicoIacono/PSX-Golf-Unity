@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
-{
+{ 
     public GameObject outline;
     public TextMeshProUGUI powerText;
     public CameraController cam;
@@ -51,7 +51,7 @@ public class BallController : MonoBehaviour
             power = 0;
             accumulatedMouseMovement = 0f;
         }
-
+        
         if (adjusting)
         {
             float deltaX = Input.GetAxis("Mouse X"); 
