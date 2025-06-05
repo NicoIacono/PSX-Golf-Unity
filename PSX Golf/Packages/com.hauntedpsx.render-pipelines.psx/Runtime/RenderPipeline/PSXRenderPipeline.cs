@@ -295,9 +295,12 @@ namespace HauntedPSX.RenderPipelines.PSX.Runtime
                     PushLightingParameters(camera, cmd);
                     PushTonemapperParameters(camera, cmd);
                     PushDynamicLightingParameters(camera, cmd, ref cullingResults);
-                    PushSkyParameters(camera, cmd, skyMaterial, m_Asset, rasterizationWidth, rasterizationHeight);
-                    PushTerrainGrassParameters(camera, cmd, m_Asset, rasterizationWidth, rasterizationHeight);
-                    PSXRenderPipeline.DrawFullScreenQuad(cmd, skyMaterial);
+                    if (camera.tag != "UIRender")
+                    {
+                        PushSkyParameters(camera, cmd, skyMaterial, m_Asset, rasterizationWidth, rasterizationHeight);
+                        PushTerrainGrassParameters(camera, cmd, m_Asset, rasterizationWidth, rasterizationHeight);
+                        PSXRenderPipeline.DrawFullScreenQuad(cmd, skyMaterial);
+                    }
                     context.ExecuteCommandBuffer(cmd);
                     cmd.Release();
 
@@ -384,7 +387,7 @@ namespace HauntedPSX.RenderPipelines.PSX.Runtime
 
         static bool IsMainGameView(Camera camera)
         {
-            return camera.cameraType == CameraType.Game; 
+            return (camera.cameraType == CameraType.Game);
         }
 
         static Color ComputeClearColorFromVolume()
@@ -885,8 +888,8 @@ namespace HauntedPSX.RenderPipelines.PSX.Runtime
         {
             using (new ProfilingScope(cmd, PSXProfilingSamplers.s_PushGlobalRasterizationParameters))
             {
-                Color clearColorUnused = Color.black;
-                cmd.ClearRenderTarget(clearDepth: true, clearColor: false, backgroundColor: clearColorUnused);
+                Color transparentBlack = new Color(0f, 0f, 0f, 0f);
+                cmd.ClearRenderTarget(clearDepth: true, clearColor: true, backgroundColor: transparentBlack);
                 cmd.SetGlobalVector(PSXShaderIDs._ScreenSize, new Vector4(rasterizationWidth, rasterizationHeight, 1.0f / (float)rasterizationWidth, 1.0f / (float)rasterizationHeight));
                 cmd.SetGlobalVector(PSXShaderIDs._ScreenSizeRasterization, new Vector4(rasterizationWidth, rasterizationHeight, 1.0f / (float)rasterizationWidth, 1.0f / (float)rasterizationHeight));
                 cmd.SetGlobalVector(PSXShaderIDs._ScreenSizeRasterizationRTScaled, new Vector4(rasterizationRT.rt.width, rasterizationRT.rt.height, 1.0f / (float)rasterizationRT.rt.width, 1.0f / (float)rasterizationRT.rt.height));

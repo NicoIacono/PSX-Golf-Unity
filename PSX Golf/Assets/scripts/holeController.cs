@@ -2,13 +2,10 @@ using UnityEngine;
 
 public class holeController : MonoBehaviour
 {
-    public GameObject outline;
-    public BallController ball;
+    public bool scored = false;
 
     void OnTriggerEnter(Collider collider)
     {
-        Debug.Log("glub");
-        ball.enabled = false;
-        outline.SetActive(false);
+        scored = true;
     }
 }
