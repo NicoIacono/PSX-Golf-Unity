@@ -16243,7 +16243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1579949067
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16283,7 +16283,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EAGLE
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e4de5b40fd1f0fd429cee233af8266b5, type: 2}
   m_sharedMaterial: {fileID: 5253040491353609653, guid: e4de5b40fd1f0fd429cee233af8266b5, type: 2}
@@ -22002,7 +22002,7 @@ GameObject:
   - component: {fileID: 1006131654}
   - component: {fileID: 3469287836585963915}
   m_Layer: 0
-  m_Name: TTV.xXBALLXx123
+  m_Name: BALL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22940,6 +22940,7 @@ MonoBehaviour:
   powerText: {fileID: 621870888}
   distText: {fileID: 415471515}
   strokesText: {fileID: 2120574911}
+  points: {fileID: 1579949066}
   cam: {fileID: 2035894518}
   hole: {fileID: 650835921}
   power: 0

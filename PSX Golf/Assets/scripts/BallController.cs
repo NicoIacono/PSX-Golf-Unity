@@ -8,6 +8,7 @@ public class BallController : MonoBehaviour
     public TextMeshProUGUI powerText;
     public TextMeshProUGUI distText;
     public TextMeshProUGUI strokesText;
+    public GameObject points;
     public CameraController cam;
     public GameObject hole;
     public int power = 0;
@@ -22,6 +23,7 @@ public class BallController : MonoBehaviour
 
     void Start()
     {
+        points.SetActive(false);
         rb = GetComponent<Rigidbody>();
     }
 
@@ -60,7 +62,20 @@ public class BallController : MonoBehaviour
 
         if (hole.GetComponent<holeController>().scored)
         {
-            
+            points.SetActive(true);
+
+            if (strokes == 1)
+                points.GetComponent<TextMeshProUGUI>().text = "Hole in One!";
+            else if (par - strokes == 2)
+                points.GetComponent<TextMeshProUGUI>().text = "Eagle!";
+            else if (par - strokes == 1)
+                points.GetComponent<TextMeshProUGUI>().text = "Birdie!";
+            else if (par - strokes == 0)
+                points.GetComponent<TextMeshProUGUI>().text = "Par";
+            else if (par - strokes == -1)
+                points.GetComponent<TextMeshProUGUI>().text = "Bogey";
+            else if (par - strokes == -2)
+                points.GetComponent<TextMeshProUGUI>().text = "Double Bogey";
         }
     }
 
