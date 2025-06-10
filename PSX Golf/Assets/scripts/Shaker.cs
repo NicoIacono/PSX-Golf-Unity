@@ -15,7 +15,7 @@ public class Shaker : MonoBehaviour
 
     void Update()
     {
-        shakeMagnitude = ballController.power / 15000.0f;
+        shakeMagnitude = ballController.power / 10000.0f;
         Vector3 newPos = originalPosition + Random.insideUnitSphere * shakeMagnitude;
         transform.localPosition = newPos;
     }

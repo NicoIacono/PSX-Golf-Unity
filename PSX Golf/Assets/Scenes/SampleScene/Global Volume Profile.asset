@@ -37,10 +37,10 @@ MonoBehaviour:
     m_Value: 1
   distanceMin:
     m_OverrideState: 1
-    m_Value: 6.7
+    m_Value: 8.8
   distanceMax:
     m_OverrideState: 1
-    m_Value: 86.42
+    m_Value: 120.04
   fogFalloffCurve:
     m_OverrideState: 1
     m_Value: 0
@@ -126,10 +126,10 @@ MonoBehaviour:
     m_Value: 3
   targetRasterizationResolutionWidth:
     m_OverrideState: 1
-    m_Value: 310
+    m_Value: 322
   targetRasterizationResolutionHeight:
     m_OverrideState: 1
-    m_Value: 310
+    m_Value: 322
   isDepthBufferEnabled:
     m_OverrideState: 0
     m_Value: 1
