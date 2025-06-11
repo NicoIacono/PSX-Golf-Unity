@@ -3,6 +3,8 @@ using System;
 using UnityEngine;
 using Unity.VisualScripting;
 using System.Runtime.ConstrainedExecution;
+using System.Collections;
+using TreeEditor;
 
 public class BallController : MonoBehaviour
 {
@@ -28,21 +30,27 @@ public class BallController : MonoBehaviour
     public float maxDrag = 3f;
     public float lowDragSpeed = 7f;
 
+    [Header("History")]
+    public Vector3 lastHit;
+
     Rigidbody rb;
     private float accumulatedMouseMovement = 0f;
     int strokes = 0;
     int distance = 0;
 
-    private float maxPower = 150f;
+    private float maxPower = 80f;
 
     void Start()
     {
+        lastHit = transform.position;
         points.SetActive(false);
         rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
+        checkForReset();
+
         distance = Mathf.RoundToInt(Vector3.Distance(transform.position, hole.transform.position));
         distText.text = distance + "m";
         powerText.text = Mathf.RoundToInt(Mathf.Lerp(0f, 100f, power / maxPower)) + "%";
@@ -58,8 +66,9 @@ public class BallController : MonoBehaviour
             if (Input.GetMouseButtonUp(0) && power > 0)
             {
                 transform.rotation = Quaternion.Euler(0, cam.xRot, 0);
+                lastHit = transform.position;
 
-                Vector3 impulse = -transform.right * power;
+                Vector3 impulse = (-transform.right * power) / 50;
                 rb.AddForce(impulse, ForceMode.Impulse);
                 power = 0;
                 adjusting = false;
@@ -113,7 +122,7 @@ public class BallController : MonoBehaviour
             float deltaX = Input.GetAxis("Mouse X");
             accumulatedMouseMovement += deltaX;
 
-            power = Mathf.Clamp(Mathf.RoundToInt(accumulatedMouseMovement * cam.sens / 2), 0, (int)maxPower);
+            power = Mathf.Clamp(Mathf.RoundToInt(accumulatedMouseMovement * cam.sens / 5.0f), 0, (int)maxPower);
         }
     }
 
@@ -123,10 +132,10 @@ public class BallController : MonoBehaviour
 
         if (grounded)
         {
-            rb.AddForce(-hit.normal * downforceStrength, ForceMode.Acceleration);
+            rb.AddForce(Vector3.down * downforceStrength, ForceMode.Acceleration);
         }
     }
-    
+
     public void AdjustDragBasedOnSpeed(Rigidbody rb, float maxSpeed, float maxDrag, float _drag)
     {
         if (rb == null) return;
@@ -143,6 +152,15 @@ public class BallController : MonoBehaviour
             // When slower, interpolate drag from maxDrag to 0
             float speedFactor = Mathf.Clamp01(speed / maxSpeed); // 0 (slow) → 1 (maxSpeed)
             rb.drag = Mathf.Lerp(maxDrag, 0f, speedFactor);
+        }
+    }
+
+    void checkForReset()
+    {
+        if (Input.GetKey(KeyCode.R))
+        {
+            transform.position = lastHit;
+            rb.velocity = new Vector3(0, 0, 0);
         }
     }
 }
